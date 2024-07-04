@@ -17,6 +17,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowLocalHost5174, 3000, 5176",
+        policyBuilder =>
+        {
+            policyBuilder.WithOrigins("http//localhost:5174",
+                    "http//localhost:30000",
+                    "http//localhost:5176"
+                    
+                )
+                .AllowAnyMethod().AllowCredentials().AllowAnyHeader();
+        });
+});
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddSingleton<SequiaDataService>();
 var app = builder.Build();
@@ -31,6 +44,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseAuthorization();
+app.UseCors("AllowLocalHost5174, 3000, 5176");
 app.MapControllers();
 app.UseHttpsRedirection();
 

@@ -35,7 +35,7 @@ namespace DroughtProject.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<int>> UpdateUsers(int id, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<ActionResult<string>> UpdateUsers(int id, [FromBody] UpdateUserDto updateUserDto)
         {
             var existUser = await _repository.ExistUser(id);
             if (!existUser)
@@ -44,13 +44,27 @@ namespace DroughtProject.Controllers
             }
 
             var user = _mapper.Map<Users>(updateUserDto);
+            user.Id = id; // Asegurarse de que el ID sea correcto
+
             var userUpdate = await _repository.UpdateUsers(user);
-            if (user == null)
+            if (userUpdate == null)
             {
                 return NotFound(id);
             }
 
             return Ok(userUpdate);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<string> DeleteUsers(int id)
+        {
+            var existUser = await _repository.ExistUser(id);
+            if (!existUser)
+            {
+                NotFound();
+            }
+
+            return await _repository.DeleteUsers(id);
         }
     }
 }
