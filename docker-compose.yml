@@ -1,0 +1,6 @@
+﻿services:
+  droughtproject:
+    image: droughtproject
+    build:
+      context: .
+      dockerfile: DroughtProject/Dockerfile
