@@ -1,5 +1,6 @@
 using DroughtProject.Data;
 using DroughtProject.Repositories;
+using DroughtProject.Services;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
@@ -29,8 +31,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-
-
+builder.Services.AddSingleton<SequiaDataService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,7 +39,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
+
+app.UseRouting();
+app.UseAuthorization();
 app.UseCors("AllowLocalHost5174, 3000, 5176");
 app.MapControllers();
 app.UseHttpsRedirection();
