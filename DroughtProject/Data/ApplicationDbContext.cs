@@ -1,6 +1,9 @@
-﻿namespace DroughtProject.Data;
+﻿using DroughtProject.Models;
+using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDbContext
+namespace DroughtProject.Data;
+
+public class ApplicationDbContext (DbContextOptions options) : DbContext (options)
 {
-    
+    public DbSet<Users> Users { get; set; }
 }
