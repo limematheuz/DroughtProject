@@ -25,5 +25,32 @@ namespace DroughtProject.Controllers
             var usersList = await _repository.GetAllUsers();
             return Ok(_mapper.Map<List<UsersDto>>(usersList));
         }
+
+        [HttpPost]
+        public async Task<ActionResult<int>> CreateUsers(CreateUserDto createUserDto)
+        {
+            var userCreate = _mapper.Map<Users>(createUserDto);
+            var userId = await _repository.CreateUsers(userCreate);
+            return Ok(userId);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<int>> UpdateUsers(int id, [FromBody] UpdateUserDto updateUserDto)
+        {
+            var existUser = await _repository.ExistUser(id);
+            if (!existUser)
+            {
+                return NotFound();
+            }
+
+            var user = _mapper.Map<Users>(updateUserDto);
+            var userUpdate = await _repository.UpdateUsers(user);
+            if (user == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(userUpdate);
+        }
     }
 }
