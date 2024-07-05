@@ -3,12 +3,9 @@ using DroughtProject.Repositories;
 using DroughtProject.Services;
 using Microsoft.EntityFrameworkCore;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
@@ -19,19 +16,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: "AllowLocalHost5174, 3000, 5176",
-        policyBuilder =>
-        {
-            policyBuilder.WithOrigins("http//localhost:5174",
-                    "http//localhost:30000",
-                    "http//localhost:5176"
-                    
-                )
-                .AllowAnyMethod().AllowCredentials().AllowAnyHeader();
-        });
+    options.AddPolicy(name: "AllowLocalHost5173", policyBuilder =>
+    {
+        policyBuilder.WithOrigins("http://localhost:5173")
+            .AllowAnyMethod().AllowCredentials().AllowAnyHeader();
+    });
 });
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddSingleton<SequiaDataService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,7 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseAuthorization();
-app.UseCors("AllowLocalHost5174, 3000, 5176");
+app.UseCors("AllowLocalHost5173");
 app.MapControllers();
 app.UseHttpsRedirection();
 

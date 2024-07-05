@@ -10,7 +10,7 @@ services:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=db;Database=DroughtDB;User=sa;Password=YourStrong!Passw0rd;
+      - ConnectionStrings__DefaultConnection=Server=db;Database=DroughtDB;User=sa;Password=Bemvindomrl-10;
     depends_on:
       - db
 
