@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace DroughtProject.DTO;
 
-namespace DroughtProject.Models;
-
-public class Users
+public class UsersDto
 {
-    [Key]
     public  int Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
